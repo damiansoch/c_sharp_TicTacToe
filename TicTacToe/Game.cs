@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,8 +16,76 @@ namespace TicTacToe
             {'7','8','9' },
 
             };
+
+
+        public void PlayGame(Player player1, Player player2)
+        {
+
+
+            for (int i = 0; i < 9; i++)
+            {
+                int field;
+                if (i % 2 == 0)
+                {
+
+
+                    Console.WriteLine("{0}'s turn. Please select the field!", player1.Name);
+                    bool validField = int.TryParse(Console.ReadLine(), out field);
+                    bool fieldIsAvailable = FieldIsAvailable(field);
+                    while (!validField || field < 1 || field > 9 || !fieldIsAvailable)
+                    {
+                        Console.WriteLine("Incorrect input. {0}'s turn. Please select the field!", player1.Name);
+                        validField = int.TryParse(Console.ReadLine(), out field);
+                        fieldIsAvailable = FieldIsAvailable(field);
+                    }
+
+                    UpdateTable(field, player1);
+                    player1.IsWinner = CheckWinning(ticTacToe);
+                    if (player1.IsWinner)
+                    {
+                        Console.Clear();
+                        DisplayTable();
+
+                        Console.WriteLine("\n{0} won!!! CONGRATULATIONS!!!", player1.Name);
+                        return;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("{0}'s turn. Please select the field!", player2.Name);
+                    bool validField = int.TryParse(Console.ReadLine(), out field);
+                    bool fieldIsAvailable = FieldIsAvailable(field);
+                    while (!validField || field < 1 || field > 9 || !fieldIsAvailable)
+                    {
+                        Console.WriteLine("Incorrect input. {0}'s turn. Please select the field!", player2.Name);
+                        validField = int.TryParse(Console.ReadLine(), out field);
+                        fieldIsAvailable = FieldIsAvailable(field);
+
+                    }
+                    UpdateTable(field, player2);
+                    player2.IsWinner = CheckWinning(ticTacToe);
+                    if (player2.IsWinner)
+                    {
+                        Console.Clear();
+                        DisplayTable();
+
+                        Console.WriteLine("\n{0} won!!! CONGRATULATIONS!!!", player2.Name);
+                        return;
+                    }
+                }
+                Console.Clear();
+                DisplayTable();
+
+
+            }
+
+            Console.WriteLine("Game is a tie!!! Noone wins!!!");
+
+        }
+
         public void DisplayTable()
         {
+            Console.WriteLine("\n");
             for (int k = 0; k < 3; k++)
             {
                 for (int i = 0; i < ticTacToe.GetLength(0); i++)
@@ -25,8 +94,10 @@ namespace TicTacToe
                     {
                         if (i == k)
                         {
+
                             if (j == 0)
                             {
+
                                 Console.Write("     " + ticTacToe[i, j]);
                             }
                             else
@@ -51,51 +122,96 @@ namespace TicTacToe
 
         }
 
-        public void PlayGame(Player player1, Player player2)
+        public bool FieldIsAvailable(int field)
         {
-
-
-            for (int i = 0; i < 9; i++)
+            switch (field)
             {
-                int field;
-                if (i % 2 == 0)
-                {
-                    Console.WriteLine("{0}'s turn. Please select the field!", player1.Name);
-                    field = Convert.ToInt32(Console.ReadLine());
-                    UpdateTable(field, player1);
-                    player1.IsWinner = CheckWinning(ticTacToe);
-                    if (player1.IsWinner)
+                case 1:
+                    if (ticTacToe[0, 0].Equals('X') || ticTacToe[0, 0].Equals('O'))
                     {
-                        Console.Clear();
-                        DisplayTable();
-
-                        Console.WriteLine("\n{0} won!!! CONGRATULATIONS!!!", player1.Name);
-                        return;
+                        return false;
                     }
-                }
-                else
-                {
-                    Console.WriteLine("{0}'s turn. Please select the field!", player2.Name);
-                    field = Convert.ToInt32(Console.ReadLine());
-                    UpdateTable(field, player2);
-                    player2.IsWinner = CheckWinning(ticTacToe);
-                    if (player2.IsWinner)
+                    else
                     {
-                        Console.Clear();
-                        DisplayTable();
-
-                        Console.WriteLine("\n{0} won!!! CONGRATULATIONS!!!", player2.Name);
-                        return;
+                        return true;
                     }
-                }
-                Console.Clear();
-                DisplayTable();
+                case 2:
+                    if (ticTacToe[0, 1].Equals('X') || ticTacToe[0, 1].Equals('O'))
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                case 3:
+                    if (ticTacToe[0, 2].Equals('X') || ticTacToe[0, 2].Equals('O'))
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        return true;
+                    }
+
+                case 4:
+                    if (ticTacToe[1, 0].Equals('X') || ticTacToe[1, 0].Equals('O'))
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                case 5:
+                    if (ticTacToe[1, 1].Equals('X') || ticTacToe[1, 1].Equals('O'))
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                case 6:
+                    if (ticTacToe[1, 2].Equals('X') || ticTacToe[1, 2].Equals('O'))
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                case 7:
+                    if (ticTacToe[2, 0].Equals('X') || ticTacToe[2, 0].Equals('O'))
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                case 8:
+                    if (ticTacToe[2, 1].Equals('X') || ticTacToe[2, 1].Equals('O'))
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                case 9:
+                    if (ticTacToe[2, 2].Equals('X') || ticTacToe[2, 2].Equals('O'))
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                default: return false;
 
 
             }
-
-
-
         }
         public void UpdateTable(int field, Player player)
         {
@@ -175,6 +291,10 @@ namespace TicTacToe
 
 
         }
-    }
 
+
+
+    }
 }
+
+
